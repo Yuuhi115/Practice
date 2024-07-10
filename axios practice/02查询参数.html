@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="city"></p>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">//引入第三方axios库</script>
+<script>
+    //使用axios函数
+    axios({
+        url:'http://hmajax.itheima.net/api/city',//请求的网址
+        params:{                                 //查询参数 == http://hmajax.itheima.net/api/city?pname=河北省
+            pname:'河北省',
+        },
+    }).then(result => {
+        console.log(result);
+        var cityList = result.data.list.join('<br>');
+        document.getElementById('city').innerHTML = cityList;
+    })
+</script>
+
+</html>
