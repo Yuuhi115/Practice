@@ -9,7 +9,7 @@
     <div id="app">
         <ul>
             <li v-for="item in user_info">
-                <p>{{item.name}}</p>
+                <p>{{item.firstName}}</p>
                 <p>{{item.age}}</p>
             </li>
         </ul>
@@ -27,9 +27,9 @@
         el:'#app',
         data:{
             user_info:[
-                {id:1,name:'john',age:18},
-                {id:2,name:'clack',age:22},
-                {id:3,name:'lweis',age:19},
+                {id:1,firstName:'john',lastName:'william',age:18},
+                {id:2,firstName:'clack',lastName:'alan',age:22},
+                {id:3,firstName:'lweis',lastName:'hamilton',age:19},
             ]
         },
         computed:{
@@ -38,6 +38,7 @@
                 //对数组中的age属性进行求和 -> reduce
                 return total;
             }
+            
         }
     })
 </script>
