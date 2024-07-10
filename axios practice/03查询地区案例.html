@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查询地区</title>
+</head>
+<body>
+    <input type="text" id="province" placeholder="请输入省份">
+    <input type="text" id="city" placeholder="请输入城市">
+    <button onclick="gain_info()">查询</button>
+    <br>
+    地区列表：
+    <div id="body"></div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function gain_info(){
+        var pName = document.getElementById('province').value
+        var cName = document.getElementById('city').value
+        axios({
+        url:'http://hmajax.itheima.net/api/area',//请求的网址
+        params:{
+            pname: pName,
+            cname: cName
+        }
+        }).then(result =>{
+            var areaList = result.data.list;
+            var showList = areaList.map(areaList => `<li>${areaList}</li>`).join('') //map映射数组到网页上,join是对象转字符串 
+            document.getElementById('body').innerHTML = showList
+            console.log(showList);
+        })
+    }
+    
+</script>
+</html>
