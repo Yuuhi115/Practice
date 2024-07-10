@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="province"></p>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">//引入第三方axios库</script>
+<script>
+    //使用axios函数
+    axios({
+        url:'http://hmajax.itheima.net/api/news',//请求的网址
+    }).then(result => {
+        console.log(result.data.data);
+        var province_list = result.data.data;
+        var total = '';
+        for(var i=0;i<province_list.length;i++){
+            var obj = Object.values(province_list[i]);
+            total = total + obj +'<br>';
+            console.log(obj);
+        }
+        document.getElementById('province').innerHTML = total;
+    })
+</script>
+</html>
