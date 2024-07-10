@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue2练习</title>
 </head>
+<style>
+    ul li{list-style: none;}
+</style>
 <body>
     <div id="app">
         <ul>
@@ -14,6 +17,11 @@
             </li>
         </ul>
         年龄总和: {{age_sum}}
+        <p>改名卡 姓：<input type="text" style="width: 40px;" v-model="firstName"> + 名：<input type="text" style="width: 40px;" v-model="lastName"> = {{fullName}}</p>
+        <input type="text" v-model="newName">
+        <button @click="changeName()">改名</button>
+        <br>
+        <textarea v-model="obj1.height"></textarea>
     </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -25,16 +33,50 @@
                 {id:1,firstName:'john',lastName:'william',age:18},
                 {id:2,firstName:'clack',lastName:'alan',age:22},
                 {id:3,firstName:'lweis',lastName:'hamilton',age:19},
-            ]
+            ],
+            firstName:'',
+            lastName:'',
+            newName:'',
+            //对象数据结构
+            obj1:{
+                height:'',
+                width:'',
+                vol:'',
+            }
+        },
+        methods: {
+            changeName(){
+                this.fullName = this.newName;
+            }
         },
         computed:{
             age_sum(){
                 let total = this.user_info.reduce((sum,item) => sum + item.age, 0);
                 //对数组中的age属性进行求和 -> reduce
                 return total;
+            },
+            fullName:{
+                //当fullName计算属性，被获取求值时，调用get方法
+                get(){
+                    return this.firstName + this.lastName;
+                },
+                //当fullName计算属性，被修改时，调用set方法，修改的值被传递到set函数的形参中
+                set(value){
+                    //console.log(value.slice(0,1));//slice(0,1)截取字符串0~1下标的值
+                    //console.log(value.slice(1));//截取1之后的
+                    this.firstName = value.slice(0,1);
+                    this.lastName = value.slice(1);
+                }
+            },
+        },
+        //监听watch，当监听的数据发生变化时就执行，用于异步处理
+        watch:{
+            'obj1.height'(newValue){
+                console.log('变化了', newValue);
+                //axios:异步请求
+    
             }
-            
-        }
+        },
     })
 </script>
 </html>
