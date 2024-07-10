@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue2练习</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in user_info">
+                <p>{{item.name}}</p>
+                <p>{{item.age}}</p>
+            </li>
+        </ul>
+        年龄总和: {{age_sum}}
+        <ul>
+            <li>
+
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    const app = new Vue({
+        el:'#app',
+        data:{
+            user_info:[
+                {id:1,name:'john',age:18},
+                {id:2,name:'clack',age:22},
+                {id:3,name:'lweis',age:19},
+            ]
+        },
+        computed:{
+            age_sum(){
+                let total = this.user_info.reduce((sum,item) => sum + item.age, 0);
+                //对数组中的age属性进行求和 -> reduce
+                return total;
+            }
+        }
+    })
+</script>
+</html>
