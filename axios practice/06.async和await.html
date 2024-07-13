@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button onclick="getDefaultArea()">执行</button>
+        <p id="message"></p>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    //async异步函数声明
+    //await在异步操作对象(axios,Promise)之前使用，表明需等待完成获取结果，类似异步变同步，相当于then
+    //获取省份城市区域案例
+    
+        async function getDefaultArea(){
+            const province = await axios({url:'http://hmajax.itheima.net/api/province'})
+            const pname = province.data.list[0]
+            const city = await axios({url:'http://hmajax.itheima.net/api/city', params:{pname:pname}})
+            const cname = city.data.list[0]
+            const area = await axios({url:'http://hmajax.itheima.net/api/area',params:{pname:pname,cname:cname}})
+            const aName = area.data.list[0]
+            document.getElementById('message').innerHTML = pname + '-' + cname + '-' + aName
+        }
+    
+    
+</script>
+</html>
