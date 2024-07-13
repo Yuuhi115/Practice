@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <textarea name="" id="origin" v-model="obj.word"></textarea>
+        <textarea name="" id="finish" style="background-color: rgb(241, 240, 240);"></textarea>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const app = new Vue({
+        el:"#app",
+        data:{
+            obj:{
+                word:''
+            }
+        },
+        watch:{
+            'obj.word'(newValue){
+                axios({
+                    url:'https://applet-base-api-t.itheima.net/api/translate',
+                    params:{
+                        words:newValue
+                    }
+                }).then(result =>{
+                    console.log(result.data.data)
+                })
+                
+            }
+        }
+    })
+</script>
+</html>

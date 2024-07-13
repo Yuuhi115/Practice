@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    //Promise链式调用 => 回调函数then, resolve()函数返回一个Promise对象，表示内部操作完成，reject是形参
+    const p = new Promise((resolve,reject) =>{
+        setTimeout(() =>{
+            resolve('北京市')
+        },2000)
+    })
+    //promise对象p接收到resolve返回的对象值，然后进行console.log输出，然后又return了一个新的promise对象，令p2接收，此时p2就是return的新promise对象
+    const p2 = p.then(result =>{
+        console.log(result)
+        //在回调函数then内return来执行链式调用
+        //return的promise对象会影响到新的promise对象(新的promise对象p2接收了返回值)
+        return new Promise((resolve,reject) =>{
+            setTimeout(() =>{
+                resolve(result + ' --- 北京')//resolve相当于在后端调用到的内容，整合成result
+            },2000)
+        })
+    })
+
+    p2.then(result =>{
+        console.log(result);
+    })
+</script>
+</html>
