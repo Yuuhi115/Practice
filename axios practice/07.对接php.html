@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        输入信息：
+        <br>
+        <input type="text" v-model="name">
+        <input type="number" v-model="age">
+        <select name="" id="" v-model="sex">
+            <option value="male">男</option>
+            <option value="female">女</option>
+        </select>
+        <br>
+        <button @click="sub()">请求数据</button>
+        <br>
+        <p>叫声：{{cry}}</p>
+    </div>
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const app = new Vue({
+        el:'#app',
+        data:{
+            name:'',
+            age:'',
+            sex:'',
+            cry:'',
+        },
+        methods: {
+                sub(){
+                    axios.get('./07.php接口.php',{
+                        params:{name:this.name,age:this.age,sex:this.sex}
+                    }).then((response)=>{
+                        let message = response.data
+                        console.log(message)
+                        this.cry = message.cry
+                    }).catch((error)=>{
+                        console.log(error)
+                    })
+                }
+            },
+        })
+</script>
+</html>

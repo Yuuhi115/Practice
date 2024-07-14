@@ -7,7 +7,15 @@
 </head>
 <body>
     <div id="app">
-        <textarea name="" id="origin" v-model="obj.word" style="width: 200px;height: 120px;"></textarea>
+        <span>翻译成的语言：</span>
+        <select name="" id="#" v-model="obj.lang">
+            <option value="italy">意大利</option>
+            <option value="english">英语</option>
+            <option value="german">德语</option>
+        </select>
+        <br>
+        <hr>
+        <textarea name="" id="origin" v-model="obj.words" style="width: 200px;height: 120px;"></textarea>
         <textarea name="" id="finish" style="background-color: rgb(241, 240, 240);width: 200px;height: 120px;" v-model="transResult"></textarea>
     </div>
 </body>
@@ -18,14 +26,17 @@
         el:"#app",
         data:{
             obj:{
-                word:''
+                words:'',
+                lang:'italy'
             },
             transResult:'',
             //时延对象
             timer:null
         },
         watch:{
-             'obj.word'(newValue){//正常情况下async应该放在该函数前面，但是await只能在有async的函数里面用，所以将async挪至延时函数里
+            //只监视word的写法，此时的watch为简写
+
+             /* 'obj.word'(newValue){//正常情况下async应该放在该函数前面，但是await只能在有async的函数里面用，所以将async挪至延时函数里
                 //使用setTimeout模拟网络延时
                 //要使用防抖措施 -> 延时输出，且之前的延时对象取消
                 clearTimeout(this.timer)//每当watch执行一次，就取消上次timer的执行
@@ -37,7 +48,25 @@
                     //console.log(translate.data.data)
                     this.transResult = translate.data.data
                 },300)
-               
+            } */
+
+            //同时监视word和lang的写法，此时watch为完整写法
+            obj:{
+                deep:true, //深度监视
+                //immediate:true, //一进页面就立刻执行一次handler
+                handler(newValue){//handler固定
+                    //使用setTimeout模拟网络延时
+                    //要使用防抖措施 -> 延时输出，且之前的延时对象取消
+                    clearTimeout(this.timer)//每当watch执行一次，就取消上次timer的执行
+                    this.timer = setTimeout(async()=>{
+                        const translate = await axios({
+                            url:'https://applet-base-api-t.itheima.net/api/translate',
+                            params:newValue
+                        })
+                        console.log(translate)
+                        this.transResult = translate.data.data
+                    },300)
+                }
             }
         }
     })
