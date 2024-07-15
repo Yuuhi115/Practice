@@ -5,7 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style type="text/css">
+    @import url(../css/main.css);
+</style>
 <body>
-    <table></table>
+    <div id="app">
+        <table>
+            <tr>
+                <td>商品id</td>
+                <td>商品名</td>
+                <td> </td>
+                <td>销量</td>
+                <td> </td>
+            </tr>
+            <tr v-for="(item,index) in list" :key="item.product_id">
+                <td>{{item.product_id}}</td>
+                <td>{{item.product_name}}</td>
+                <td><button @click="delete_num(item.product_id,item.sales_volume)">-</button></td>
+                <td>{{item.sales_volume}}</td>
+                <td><button @click="add_num(item.product_id)">+</button></td>
+            </tr>
+            
+        </table>
+    </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const app = new Vue({
+        el:'#app',
+        data:{
+            list:[],
+        },
+        created() {
+            axios.get('../php/gain_view.php').then((response) =>{
+                var message = response.data
+                this.list = message;
+            }).catch((error)=>{
+                console.log(error);
+            })
+        },
+        methods: {
+            add_num(id){
+                axios.get('../php/modify_num.php',{
+                    params:{mode:'add',id:id}
+                }).then((response)=>{
+                    console.log(response.data)
+                    if(response.data == 'success'){
+                        for(var i=0;i<this.list.length;i++){
+                            if(this.list[i].product_id == id){
+                                this.list[i].sales_volume++;
+                            }
+                        }
+                    }else{
+                        alert('error');
+                    }
+                })  
+               
+                
+            },
+            delete_num(id,sales_num){
+                if(sales_num > 0){
+                    axios.get('../php/modify_num.php',{
+                    params:{mode:'delete',id:id}
+                    }).then((response)=>{
+                        console.log(response.data)
+                        if(response.data == 'success'){
+                            for(var i=0;i<this.list.length;i++){
+                                if(this.list[i].product_id == id){
+                                    this.list[i].sales_volume--;
+                                }
+                            }
+                        }else{
+                            alert('error');
+                        }
+                    })  
+                }else{
+                    console.log('Could Not Delete');
+                    return;
+                } 
+            }
+        },
+
+    })
+</script>
 </html>
