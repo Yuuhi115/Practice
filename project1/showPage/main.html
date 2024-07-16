@@ -9,7 +9,7 @@
     @import url(../css/main.css);
 </style>
 <body>
-    <div id="app">
+    <div id="app1">
         <table>
             <tr>
                 <td>商品id</td>
@@ -32,13 +32,17 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const app = new Vue({
-        el:'#app',
+    const app1 = new Vue({
+        el:'#app1',
         data:{
             list:[],
+            page_num:2,
+            page_size:3,
         },
         created() {
-            axios.get('../php/gain_view.php').then((response) =>{
+            axios.get('../php/gain_view.php',{
+                params:{page_num:this.page_num,page_size:this.page_size}
+            }).then((response) =>{
                 var message = response.data
                 this.list = message;
             }).catch((error)=>{

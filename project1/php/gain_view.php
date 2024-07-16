@@ -1,6 +1,9 @@
 <?php
     require('./database.php');
-    $list = mysqli_query($con,"select * from product");
+    $page_num = $_GET['page_num'];
+    $page_size = $_GET['page_size'];
+    $start = ($page_num-1) * $page_size;
+    $list = mysqli_query($con,"SELECT * FROM product LIMIT $start,$page_size");
     $product_array = array();
     while($row = mysqli_fetch_assoc($list)){
         $product_array[] = $row;
