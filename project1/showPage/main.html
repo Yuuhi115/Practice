@@ -40,7 +40,7 @@
             page_size:3,
         },
         created() {
-            axios.get('../php/gain_view.php',{
+            axios.get('http://localhost:8081/Practice/project1/php/gain_view.php',{
                 params:{page_num:this.page_num,page_size:this.page_size}
             }).then((response) =>{
                 var message = response.data
