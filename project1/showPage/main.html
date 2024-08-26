@@ -39,6 +39,9 @@
             page_num:2,
             page_size:3,
         },
+        beforeCreate() {
+            console.log('响应式数据准备好之前');
+        },
         created() {
             axios.get('http://localhost:8081/Practice/project1/php/gain_view.php',{
                 params:{page_num:this.page_num,page_size:this.page_size}
