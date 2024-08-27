@@ -1,7 +1,7 @@
 <?php
     $serverName = "localhost";
     $userName = "root";
-    $passWord = "";
+    $passWord = "123456";
     $dataBase = "college_trade";
         $con = mysqli_connect($serverName,$userName,$passWord,$dataBase);
         if ($con)

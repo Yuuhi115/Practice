@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button onclick="Post()">请求</button>
+        <span id="text"></span>
+    </div>
+</body>
+<script>
+    function Post(){
+        var xhr = new XMLHttpRequest();
+        var url = "http://127.0.0.1:8080/json/data";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+            
+                console.log(xhr.responseText);
+                document.getElementById("text").innerHTML = xhr.responseText;
+            }
+        };
+        var data = JSON.stringify({ name: "AidealRays",age:"16",gender:"female" });
+        xhr.send(data);
+    }
+    
+
+</script>
+</html>
